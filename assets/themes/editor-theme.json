@@ -1,0 +1,68 @@
+{
+    "panel": {
+        "colours": {
+            "dark_bg": "#5E7C97",
+            "normal_border": "#575757"
+        }
+    },
+    "button": {
+        "colours": {
+            "normal_bg": "#355775",
+            "normal_border": "#404143",
+            "normal_text": "#ffffff",
+            "hovered_bg": "#446786",
+            "hovered_border": "#404143",
+            "hovered_text": "#ffffff",
+            "active_bg": "#345E83",
+            "active_border": "#404143",
+            "active_text": "#ffffff"
+        },
+        "font": {
+            "name": "GALACTIC",
+            "size": "20",
+            "regular_resource": {
+                "package": "assets.fonts",
+                "resource": "GALACTIC VANGUARDIAN NCV.OTF"
+            }
+        },
+        "misc": {
+            "shape": "rounded_rectangle"
+        }
+    },
+
+    "label": {
+        "colours": {
+            "normal_text": "#FFFFFF"
+        },
+        "font": {
+            "name": "GALACTIC",
+            "size": "36",
+            "bold": "1",
+            "regular_resource": {
+                "package": "assets.fonts",
+                "resource": "GALACTIC VANGUARDIAN NCV.OTF"
+            }
+
+        }
+    },
+
+    "text_entry_line": {
+        "colours": {
+            "dark_bg": "#355775",
+            "normal_border": "#404143",
+            "normal_text": "#ffffff"
+
+        },
+        "font": {
+            "name": "GALACTIC",
+            "size": "26",
+            "regular_resource": {
+                "package": "assets.fonts",
+                "resource": "GALACTIC VANGUARDIAN NCV.OTF"
+            }
+        },
+        "misc": {
+            "shape": "rounded_rectangle"
+        }
+    }
+}
