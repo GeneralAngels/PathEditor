@@ -5,6 +5,9 @@ import os
 from Planner import *
 
 
+EDITOR_WIDTH = 900
+EDITOR_HEIGHT = 900
+
 def initiate_ui():
 
     PLANNER_DIR = os.path.realpath(os.path.dirname(__file__))
@@ -85,9 +88,12 @@ def initiate_ui():
 
 def initiate_screen():
     pygame.init()
-    screen = pygame.display.set_mode((900, 900))
+    flags = pygame.RESIZABLE | pygame.SCALED 
+    display = pygame.display.Info()
+    screen = pygame.display.set_mode((EDITOR_WIDTH, EDITOR_HEIGHT), flags)
     screen.fill("0xA4A4A4")
     pygame.display.set_caption("Path Editor")
+
 
     manager = initiate_ui()
 
@@ -193,7 +199,7 @@ def update_ui():
 
         if (pygame.mouse.get_pos()[1] > 100):
             pos_x_entry.set_text(str(selected_point.pos[0])) # Update the text entries with the selected point's position.
-            pos_y_entry.set_text(str(selected_point.pos[1]))
+            pos_y_entry.set_text(str(800 - selected_point.pos[1]))
             angle_entry.set_text(str(int(selected_point.heading.angle)))
         
         else:

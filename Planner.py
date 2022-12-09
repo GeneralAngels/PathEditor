@@ -61,13 +61,12 @@ def generate_path(points: list) -> list:
 
 
 
-def convert_points(points):
-
+def convert_points(points, start_pos=(100,1000)):
+ 
     path = []
 
     for point in points:
-        point_pos = (point.pos[0] / 900, (800 - point.pos[1]) / 800)
+        point_pos = (start_pos[0] -  point.pos[0] / 900, (800 - (start_pos[1] - point.pos[1])) / 800)
         path.append([point_pos[0], point_pos[1], point.heading.angle])
 
-    print(path)
     return path
