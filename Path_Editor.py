@@ -8,6 +8,10 @@ from Planner import *
 EDITOR_WIDTH = 900
 EDITOR_HEIGHT = 900
 
+DRAWING_WIDTH = 900
+DRAWING_HEIGHT = 800
+
+
 def initiate_ui():
 
     PLANNER_DIR = os.path.realpath(os.path.dirname(__file__))
@@ -105,7 +109,7 @@ def add_point(pos):
     Y = 1
     X = 0
 
-    global last_mouse_pos
+    global last_mouse_pos, start_pos
 
     if (100 < pos[Y] < 900 and 0 < pos[X] < 900 and pygame.mouse.get_pos() != last_mouse_pos):
 
@@ -116,9 +120,12 @@ def add_point(pos):
 
         last_point_angle = points[-2].heading.angle
         points[-1].heading.update_angle(last_point_angle)
-
+        
 
 def draw_points(screen, points):
+
+    global start_pos, end_pos
+
     screen.fill("0xA4A4A4")
     for index, point in enumerate(points):
 
@@ -138,6 +145,9 @@ def draw_points(screen, points):
     for point in special_points:
         point.draw(screen)
         point.heading.draw(screen)
+
+    if start_pos: pygame.draw.circle(screen, (0, 255, 0), (start_pos[0], start_pos[1] + 100) , 3)
+    if end_pos: pygame.draw.circle(screen, (255, 0, 0), (end_pos[0], end_pos[1] + 100), 3)
 
 
 def update_point(change):
@@ -206,7 +216,7 @@ def update_ui():
             init_angle = selected_point.heading.angle # Used to later check if the user had changed the angle.
 
             pos_x = int(pos_x_entry.get_text() if pos_x_entry.get_text() != "" else 0)
-            pos_y = int(pos_y_entry.get_text() if pos_y_entry.get_text() != "" else 0)
+            pos_y = DRAWING_HEIGHT - int(pos_y_entry.get_text() if pos_y_entry.get_text() != "" else 0)
             angle = int(angle_entry.get_text() if angle_entry.get_text().replace("-", "") != "" else 0)
 
             selected_point.update(pos_x if pos_x < 900 else 900, 
@@ -235,11 +245,11 @@ def update_ui():
 
 def process_events():
 
-    global selected_point, points, manager, running, mode, special_points
+    global selected_point, points, manager, mode, special_points, start_pos, end_pos, start_pos, end_pos
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            quit()
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
@@ -249,7 +259,7 @@ def process_events():
 
             if event.key == pygame.K_s:
                 print("[INFO] SAVING PATH")
-                generate_path(convert_points(points))
+                generate_path(convert_points(points, start_pos))
                 
 
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
@@ -258,13 +268,22 @@ def process_events():
                 selected_point = None
                 points = []
                 special_points = []
+                start_pos = None
+                end_pos = None
 
         manager.process_events(event)
+
+    if (len(points) > 0):
+        if start_pos != points[0].pos: # If the start position has changed, update the start position.
+            start_pos = points[0].pos
+
+        if end_pos != points[-1].pos and len(points) > 1:
+            end_pos = points[-1].pos
 
 
 def main():
 
-    global points, last_mouse_pos, selected_point, manager, clock, screen, running, mode, special_points
+    global points, last_mouse_pos, selected_point, manager, clock, screen, mode, special_points, start_pos, end_pos
 
     screen, manager = initiate_screen()
     last_mouse_pos = (0, 0), (1, 1)
@@ -274,6 +293,8 @@ def main():
     mode = "edit"
     selected_point = None
     special_points = []
+    start_pos = (0, 0)
+    end_pos = (0, 0)
 
     while running:
 

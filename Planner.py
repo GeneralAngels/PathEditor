@@ -1,7 +1,7 @@
 
 import numpy as np
 import math
-import json
+import Path_Editor as path_editor
 
 
 def generate_path(points: list) -> list:
@@ -61,12 +61,14 @@ def generate_path(points: list) -> list:
 
 
 
-def convert_points(points, start_pos=(100,1000)):
+def convert_points(points, start_pos=(0,0)):
  
     path = []
+    start_pos = (start_pos[0], path_editor.DRAWING_HEIGHT - start_pos[1])
 
     for point in points:
-        point_pos = (start_pos[0] -  point.pos[0] / 900, (800 - (start_pos[1] - point.pos[1])) / 800)
+        converted_pos = (point.pos[0], path_editor.DRAWING_HEIGHT - point.pos[1])
+        point_pos = ((start_pos[0] -  converted_pos[0]) / 900, (start_pos[1] - converted_pos[1]) / 800)
         path.append([point_pos[0], point_pos[1], point.heading.angle])
 
     return path
